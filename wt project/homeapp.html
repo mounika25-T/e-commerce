@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop N Play - Home Appliances</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #e8f8ee;
+      color: #2f4f2f;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 25px 0;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+    }
+    nav {
+      background: #66bb6a;
+      display: flex;
+      justify-content: center;
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      animation: slideInDown 1s ease-in-out;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+      transition: color 0.3s, transform 0.3s;
+    }
+    nav a:hover {
+      color: #c8e6c9;
+      transform: scale(1.1);
+    }
+
+    .content {
+      text-align: center;
+      padding: 60px 20px;
+      animation: fadeInUp 1.5s ease;
+    }
+    .content h2 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      color: #1b5e20;
+    }
+
+    footer {
+      background-color: #66bb6a;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 40px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    @keyframes slideInDown { from {transform: translateY(-100%);} to {transform: translateY(0);} }
+    @keyframes fadeInUp { from {opacity: 0; transform: translateY(40px);} to {opacity: 1; transform: translateY(0);} }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 20px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: left;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeInUp 1.5s ease;
+      min-height: 520px;
+      border: 2px solid #a5d6a7;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .product-image-container {
+      width: 100%;
+      height: 220px;
+      background-color: #f1f8e9;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.5s;
+    }
+
+    .product-card:hover .product-image-container img {
+      transform: scale(1.05);
+    }
+
+    .product-details h3 {
+      font-size: 1.4em;
+      color: #2e7d32;
+      margin-bottom: 5px;
+      min-height: 40px;
+    }
+    .specs-list {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 0.85em;
+      color: #4a4a4a;
+      margin-bottom: 15px;
+    }
+    .specs-list li {
+      margin-bottom: 3px;
+      border-bottom: 1px dotted #c8e6c9;
+      padding: 2px 0;
+    }
+
+    .card-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: auto;
+      padding-top: 15px;
+      border-top: 1px solid #c8e6c9;
+    }
+
+    .price-badge {
+      font-size: 1.4em;
+      color: white;
+      background-color: #388e3c;
+      font-weight: 700;
+      border-radius: 8px;
+      text-align: center;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .buy-btn {
+      background-color: #43a047;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+    }
+    .buy-btn:hover {
+      background-color: #2e7d32;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Shop N Play - Home Appliances 🌿</h1>
+  </header>
+  <nav>
+    <a href="home.html">🏠 Home</a>
+    <a href="products.html">🛒 Shop</a>
+    <a href="games.html">🎮 Games</a>
+  </nav>
+
+  <div class="content">
+    <h2>Top Home Appliances You’ll Love 💡</h2>
+
+    <div class="product-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61nIcu4GPvL._AC_UY327_FMwebp_QL65_.jpg" alt="LG Washing Machine" />
+        </div>
+        <div class="product-details">
+          <h3>LG 8 Kg Front Load Washing Machine</h3>
+          <ul class="specs-list">
+            <li>Steam & Inverter Direct Drive</li>
+            <li>1200 RPM Spin Speed</li>
+            <li>6 Motion Control Technology</li>
+            <li>Smart Diagnosis System</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹41,990</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=LG+8+Kg+Front+Load+Washing+Machine" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61gXEHID2WL._AC_UY327_FMwebp_QL65_.jpg" alt="Samsung Refrigerator" />
+        </div>
+        <div class="product-details">
+          <h3>Samsung 253L 3 Star Refrigerator</h3>
+          <ul class="specs-list">
+            <li>Convertible Freezer</li>
+            <li>Digital Inverter Compressor</li>
+            <li>Frost-Free Cooling</li>
+            <li>Energy Efficient</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹26,490</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Samsung+253L+3+Star+Refrigerator" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/51lRM69HJ9L._AC_UY327_FMwebp_QL65_.jpg" alt="Dyson Vacuum Cleaner" />
+        </div>
+        <div class="product-details">
+          <h3>Dyson V12 Detect Slim Vacuum Cleaner</h3>
+          <ul class="specs-list">
+            <li>Laser Dust Detection</li>
+            <li>Up to 60 Minutes Run Time</li>
+            <li>Powerful Suction</li>
+            <li>Smart LCD Display</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹58,900</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Dyson+V12+Detect+Slim+Vacuum+Cleaner" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/71xMGeijnLL._AC_UY327_FMwebp_QL65_.jpg" alt="Philips Air Fryer" />
+        </div>
+        <div class="product-details">
+          <h3>Philips Digital Air Fryer 6.2L</h3>
+          <ul class="specs-list">
+            <li>Rapid Air Technology</li>
+            <li>Digital Touch Display</li>
+            <li>Low Oil Frying</li>
+            <li>Dishwasher Safe Parts</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹12,499</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Philips+Digital+Air+Fryer+6.2L" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61n-dJ0vUAL._AC_UY327_FMwebp_QL65_.jpg" alt="IFB Microwave Oven" />
+        </div>
+        <div class="product-details">
+          <h3>IFB 30L Convection Microwave Oven</h3>
+          <ul class="specs-list">
+            <li>101 Auto Cook Menus</li>
+            <li>Steam Clean Feature</li>
+            <li>Touch Key Pad</li>
+            <li>Free Starter Kit</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹14,990</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=IFB+30L+Convection+Microwave+Oven" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61zs+yEFnAL._AC_UY327_FMwebp_QL65_.jpg" alt="Bajaj Mixer Grinder" />
+        </div>
+        <div class="product-details">
+          <h3>Bajaj GX8 Mixer Grinder 750W</h3>
+          <ul class="specs-list">
+            <li>3 Stainless Steel Jars</li>
+            <li>Powerful 750W Motor</li>
+            <li>Multifunction Blades</li>
+            <li>3 Speed Control</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹3,299</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Bajaj+GX8+Mixer+Grinder+750W" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61+t320aqdL._AC_UY327_FMwebp_QL65_.jpg" alt="Havells Iron" />
+        </div>
+        <div class="product-details">
+          <h3>Havells 1000-Watt Dry Iron</h3>
+          <ul class="specs-list">
+            <li>Non-Stick Soleplate</li>
+            <li>Adjustable Temperature Control</li>
+            <li>Lightweight Design</li>
+            <li>360° Swivel Cord</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹899</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Havells+1000-Watt+Dry+Iron" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/71HEG4ks07L._AC_UY327_FMwebp_QL65_.jpg" alt="Sony Smart TV" />
+        </div>
+        <div class="product-details">
+          <h3>Sony Bravia 55-inch 4K Smart TV</h3>
+          <ul class="specs-list">
+            <li>Google TV with Alexa</li>
+            <li>Dolby Vision & Atmos</li>
+            <li>4K HDR Display</li>
+            <li>Built-in Chromecast</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹78,990</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Sony+Bravia+55+inch+4K+Smart+TV" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/51qw5c+kH4L._AC_UY327_FMwebp_QL65_.jpg" alt="Voltas AC" />
+        </div>
+        <div class="product-details">
+          <h3>Voltas 1.5 Ton 5 Star Inverter AC</h3>
+          <ul class="specs-list">
+            <li>Variable Speed Compressor</li>
+            <li>Anti-Dust Filter</li>
+            <li>Stabilizer-Free Operation</li>
+            <li>Environment Friendly Gas</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹44,990</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Voltas+1.5+Ton+5+Star+Inverter+AC" target="_blank">Buy</a>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://m.media-amazon.com/images/I/61Y8U5yE36L._AC_UY327_FMwebp_QL65_.jpg" alt="Prestige Induction Cooktop" />
+        </div>
+        <div class="product-details">
+          <h3>Prestige PIC 20 Induction Cooktop</h3>
+          <ul class="specs-list">
+            <li>1200 Watt Power</li>
+            <li>Automatic Voltage Regulator</li>
+            <li>Indian Menu Options</li>
+            <li>Timer Control Function</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-badge">₹2,199</div>
+          <a class="buy-btn" href="https://www.amazon.in/s?k=Prestige+PIC+20+Induction+Cooktop" target="_blank">Buy</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Shop N Play | All Rights Reserved 🌱</p>
+  </footer>
+</body>
+</html>

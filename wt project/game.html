@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shop N Play - Play Games & Earn Super Coins</title>
+<style>
+  :root{
+    --bg:#f5fbff;
+    --accent:#4caf50;
+    --accent-dark:#388e3c;
+    --card:#ffffff;
+    --muted:#666;
+  }
+  html,body{height:100%; margin:0}
+  body {
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: var(--bg);
+    color: #222;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px;
+    box-sizing:border-box;
+  }
+  .container{max-width:920px; width:100%;}
+  header {
+    background: linear-gradient(90deg,var(--accent),#81c784);
+    color: white;
+    padding:22px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  }
+  header p{margin:6px 0 0; opacity:.95}
+  #coin-counter{
+    font-weight:700; color:var(--accent-dark);
+    margin:18px 0; font-size:1.25rem; text-align:center;
+  }
+  .controls {display:flex; gap:8px; justify-content:center; margin-bottom:12px;}
+  .btn {
+    background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:999px;
+    cursor:pointer; font-weight:600; box-shadow:0 6px 12px rgba(60,120,60,0.08);
+  }
+  .btn.alt{background:#fff; color:var(--accent); border:1px solid #e6f2ea}
+  .games{display:grid; grid-template-columns:1fr; gap:18px; margin-top:12px}
+  @media(min-width:860px){ .games{grid-template-columns:repeat(2,1fr)} }
+  .card{background:var(--card); border-radius:12px; padding:16px; box-shadow:0 8px 24px rgba(18,50,18,0.04); }
+  .game-header{display:flex; justify-content:space-between; align-items:center}
+  .game-title{font-size:1.1rem; color:var(--accent-dark); font-weight:700}
+  .game-content{margin-top:12px; display:none}
+  .game-content.active{display:block}
+  #game-area{min-height:160px; margin-top:18px; text-align:center}
+  #message{margin-top:14px; font-size:1rem; font-weight:600; color:#007700; min-height:1.2em}
+  .color-box{
+    width:150px;height:150px;margin:18px auto;border-radius:20px; cursor:pointer;
+    display:flex;align-items:center;justify-content:center; color:white; font-weight:700;
+    user-select:none; box-shadow:0 8px 18px rgba(0,0,0,0.08);
+    transition:transform .14s ease, box-shadow .14s ease;
+  }
+  .color-box:active{transform:scale(.98)}
+  .pulse { animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)} }
+  input[type="number"], input[type="text"] {
+    padding:8px; border-radius:8px; border:1px solid #ddd; width:120px; box-sizing:border-box;
+  }
+  footer{margin-top:34px; text-align:center; color:var(--muted); font-size:.95rem}
+  .small{font-size:.9rem; color:#444}
+  .utility {display:flex; gap:8px; justify-content:center; margin-top:8px; flex-wrap:wrap}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Shop N Play — Earn Super Coins!</h1>
+      <p>Play small games and collect Super Coins to use on Shop N Play.</p>
+    </header>
+
+    <div id="coin-counter">Super Coins: <span id="coins">0</span> 🪙</div>
+
+    <div class="controls">
+      <button class="btn" id="saveBtn" title="Save coins to localStorage">Save Progress</button>
+      <button class="btn alt" id="resetBtn" title="Reset coins to zero">Reset Coins</button>
+      <button class="btn alt" id="exportBtn" title="Export coin value">Export</button>
+      <button class="btn alt" id="importBtn" title="Import coin value">Import</button>
+    </div>
+
+    <div class="games" role="list">
+      <div class="card" role="listitem">
+        <div class="game-header">
+          <div class="game-title">Touch Color Game 🎨</div>
+          <button class="btn alt" data-target="gcolor">Toggle</button>
+        </div>
+        <div class="game-content" id="gcolor">
+          <p class="small">Tap (or press Enter/Space) the colored box to change the page background and earn <strong>2</strong> coins per tap.</p>
+          <div style="text-align:center; margin-top:8px;">
+            <button class="btn" id="startColor">Start Color Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" role="listitem">
+        <div class="game-header">
+          <div class="game-title">Numbers Adding Game ➕</div>
+          <button class="btn alt" data-target="gadd">Toggle</button>
+        </div>
+        <div class="game-content" id="gadd">
+          <p class="small">Enter two numbers — you earn coins equal to their sum.</p>
+          <div style="text-align:center; margin-top:8px;">
+            <button class="btn" id="startAdd">Start Numbers Game</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" role="listitem">
+        <div class="game-header">
+          <div class="game-title">Simple Math Quiz 🧮</div>
+          <button class="btn alt" data-target="gquiz">Toggle</button>
+        </div>
+        <div class="game-content" id="gquiz">
+          <p class="small">Answer a random addition question correctly to earn <strong>5</strong> coins.</p>
+          <div style="text-align:center; margin-top:8px;">
+            <button class="btn" id="startQuiz">Start Math Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="game-area" aria-live="polite"></div>
+    <div id="message" role="status"></div>
+
+    <div class="utility">
+      <div class="small">Tip: Use the Toggle buttons to open/close games. Coins persist automatically on save.</div>
+    </div>
+
+    <footer>
+      © 2025 Shop N Play — Play, Earn & Shop
+    </footer>
+  </div>
+
+<script>
+(function(){
+  // ---- state & persistence ----
+  const COIN_KEY = 'shopnplay_coins_v1';
+  let coins = 0;
+  const coinsEl = document.getElementById('coins');
+  const gameArea = document.getElementById('game-area');
+  const message = document.getElementById('message');
+
+  function renderCoins(){
+    coinsEl.textContent = coins;
+  }
+  function updateCoins(delta){
+    coins = Math.max(0, Math.floor(coins + delta));
+    renderCoins();
+  }
+  function saveToStorage(){
+    try{ localStorage.setItem(COIN_KEY, String(coins)); showMessage('Progress saved.'); }
+    catch(e){ showMessage('Save failed (storage error).', true); }
+  }
+  function loadFromStorage(){
+    const v = localStorage.getItem(COIN_KEY);
+    if(v !== null){
+      const n = parseInt(v,10);
+      if(Number.isFinite(n)) coins = n;
+    }
+    renderCoins();
+  }
+  function resetCoins(){
+    coins = 0; renderCoins(); showMessage('Coins reset to 0.');
+  }
+
+  // ---- helpers ----
+  function showMessage(text, isError=false){
+    message.style.color = isError ? '#aa0000' : '#007700';
+    message.textContent = text;
+  }
+  function randomHex(){
+    return '#'+Math.floor(Math.random()*0xFFFFFF).toString(16).padStart(6,'0');
+  }
+  function clearGameArea(){ gameArea.innerHTML = ''; }
+
+  // ---- UI wire-up for toggles ----
+  document.querySelectorAll('[data-target]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-target');
+      document.querySelectorAll('.game-content').forEach(c=> c.classList.remove('active'));
+      const el = document.getElementById(id);
+      if(el) el.classList.toggle('active');
+      clearGameArea(); message.textContent = '';
+    });
+  });
+
+  // ---- Color game ----
+  document.getElementById('startColor').addEventListener('click', startColorGame);
+  function startColorGame(){
+    clearGameArea();
+    showMessage('Tap the box to change background color and earn 2 coins.');
+    const box = document.createElement('div');
+    box.className = 'color-box pulse';
+    box.style.backgroundColor = randomHex();
+    box.setAttribute('role','button');
+    box.setAttribute('tabindex','0');
+    box.title = 'Tap or press Enter/Space';
+    box.textContent = 'Tap me';
+    box.addEventListener('click', colorEarn);
+    box.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') colorEarn(e); });
+    gameArea.appendChild(box);
+
+    function colorEarn(e){
+      const color = randomHex();
+      document.body.style.backgroundColor = color;
+      updateCoins(2);
+      showMessage(`Great! You earned 2 coins. Total: ${coins} 🪙`);
+      // briefly flash box
+      box.classList.remove('pulse');
+      void box.offsetWidth;
+      box.classList.add('pulse');
+    }
+  }
+
+  // ---- Numbers adding game ----
+  document.getElementById('startAdd').addEventListener('click', startAddGame);
+  function startAddGame(){
+    clearGameArea();
+    message.textContent = '';
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+      <div style="display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <input id="n1" type="number" placeholder="Number 1" />
+        <input id="n2" type="number" placeholder="Number 2" />
+        <button id="addGo" class="btn">Add Numbers</button>
+      </div>`;
+    gameArea.appendChild(wrapper);
+    const btn = document.getElementById('addGo');
+    btn.addEventListener('click', ()=>{
+      const a = parseInt(document.getElementById('n1').value,10);
+      const b = parseInt(document.getElementById('n2').value,10);
+      if(!Number.isFinite(a) || !Number.isFinite(b)){
+        showMessage('Please enter valid numbers.', true);
+        return;
+      }
+      const s = a + b;
+      updateCoins(s);
+      showMessage(`You added ${a} + ${b} = ${s} and earned ${s} coins! Total: ${coins} 🪙`);
+    });
+  }
+
+  // ---- Math quiz ----
+  document.getElementById('startQuiz').addEventListener('click', startQuiz);
+  function startQuiz(){
+    clearGameArea();
+    const a = Math.floor(Math.random()*10)+1;
+    const b = Math.floor(Math.random()*10)+1;
+    const question = document.createElement('div');
+    question.innerHTML = `
+      <p style="font-weight:700">Solve: ${a} + ${b} = ?</p>
+      <div style="display:flex;gap:8px; justify-content:center; align-items:center; flex-wrap:wrap;">
+        <input id="ans" type="number" placeholder="Your answer" />
+        <button id="check" class="btn">Submit Answer</button>
+      </div>`;
+    gameArea.appendChild(question);
+    document.getElementById('check').addEventListener('click', ()=>{
+      const v = parseInt(document.getElementById('ans').value,10);
+      if(!Number.isFinite(v)){ showMessage('Please enter a number.', true); return; }
+      if(v === a + b){
+        updateCoins(5);
+        showMessage(`Correct! You earned 5 coins. Total: ${coins} 🪙`);
+        clearGameArea();
+      } else {
+        showMessage('Incorrect — try again!', true);
+      }
+    });
+  }
+
+  // ---- save/reset/export/import ----
+  document.getElementById('saveBtn').addEventListener('click', saveToStorage);
+  document.getElementById('resetBtn').addEventListener('click', ()=> {
+    if(confirm('Reset coins to 0?')) resetCoins();
+  });
+  document.getElementById('exportBtn').addEventListener('click', ()=>{
+    const txt = prompt('Copy your coin value or share it. Current coins:', String(coins));
+    if(txt !== null) showMessage('Value shown (copy from prompt).');
+  });
+  document.getElementById('importBtn').addEventListener('click', ()=>{
+    const v = prompt('Paste coin value to import (integer):');
+    if(v === null) return;
+    const n = parseInt(v,10);
+    if(!Number.isFinite(n)){ showMessage('Invalid value.', true); return; }
+    coins = Math.max(0, n);
+    renderCoins();
+    showMessage('Imported coin value.');
+  });
+
+  // ---- init ----
+  loadFromStorage();
+  // auto save on unload (best-effort)
+  window.addEventListener('beforeunload', ()=> {
+    try{ localStorage.setItem(COIN_KEY, String(coins)); } catch(e){}
+  });
+
+})();
+</script>
+</body>
+</html>
